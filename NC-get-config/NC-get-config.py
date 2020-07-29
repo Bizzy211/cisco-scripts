@@ -35,11 +35,11 @@ import xml.dom.minidom
 if __name__ == '__main__':
     parser = ArgumentParser(description='Select options.')
     # Input parameters
-    parser.add_argument('--host', type=str, required=True,
+    parser.add_argument('--host', type=str, default='192.168.0.87',
                         help="The device IP or DN")
-    parser.add_argument('-u', '--username', type=str, default='cisco',
+    parser.add_argument('-u', '--username', type=str, default='admin',
                         help="Go on, guess!")
-    parser.add_argument('-p', '--password', type=str, default='cisco',
+    parser.add_argument('-p', '--password', type=str, default='admin',
                         help="Yep, this one too! ;-)")
     parser.add_argument('--port', type=int, default=830,
                         help="Specify this if you want a non-default port")
