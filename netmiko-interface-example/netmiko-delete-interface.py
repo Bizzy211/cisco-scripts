@@ -1,6 +1,9 @@
-MIT License
+#! /usr/bin/env python
+"""Sample use of the netmiko library for CLI interfacing
 
-Copyright (c) 2019, Cisco Systems, Inc. and/or its affiliates
+This script will delete configuration on a device.
+
+Copyright (c) 2018 Cisco and/or its affiliates.
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -19,3 +22,31 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
+"""
+
+# Import libraries
+from netmiko import ConnectHandler
+
+from device_info import ios_xe1 as device # noqa
+
+# New Loopback Details
+loopback = {"int_name": "Loopback103"}
+
+# Create a CLI configuration
+interface_config = [
+    "no interface {}".format(loopback["int_name"])
+]
+
+# Open CLI connection to device
+with ConnectHandler(ip = device["address"],
+                    port = device["ssh_port"],
+                    username = device["username"],
+                    password = device["password"],
+                    device_type = device["device_type"]) as ch:
+
+    # Send configuration to device
+    output = ch.send_config_set(interface_config)
+
+    # Print the raw command output to the screen
+    print("The following configuration was sent: ")
+    print(output)
